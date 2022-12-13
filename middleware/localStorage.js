@@ -1,6 +1,14 @@
+function getLocalStorage(key, initial) {
+  try {
+    return JSON.parse(window.localStorage.getItem(key));
+  } catch (error) {
+    return initial;
+  }
+}
+
 const initialState = {
   loading: false,
-  data: window.localStorage.getItem('data'),
+  data: getLocalStorage('data', null),
   error: null,
 };
 
@@ -31,7 +39,7 @@ const localStorage = (store) => (next) => (action) => {
     console.log(action);
     window.localStorage.setItem(
       action.localStorage,
-      JSON.stringify(action.localStorage)
+      JSON.stringify(action.payload)
     );
   }
   return next(action);

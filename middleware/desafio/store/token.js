@@ -1,6 +1,8 @@
+import getLocalStorage from './helper/getLocalStorage.js';
+
 const TOKEN_FETCH_STARTED = 'token/FETCH_STARTED';
 const TOKEN_FETCH_SUCCESS = 'token/FETCH_SUCCESS';
-const TOKEN_FETCH_FAIL = 'token/FETCH_FAIL';
+const TOKEN_FETCH_ERROR = 'token/FETCH_ERROR';
 
 const tokenFetchStarted = () => ({ type: TOKEN_FETCH_STARTED });
 const tokenFetchSuccess = (payload) => ({
@@ -8,7 +10,7 @@ const tokenFetchSuccess = (payload) => ({
   payload,
   localStorage: 'token',
 });
-const tokenFetchFail = () => ({ type: TOKEN_FETCH_FAIL, payload });
+const tokenFetchError = (payload) => ({ type: TOKEN_FETCH_ERROR, payload });
 
 export const tokenFetch = (user) => async (dispatch) => {
   try {
@@ -23,28 +25,27 @@ export const tokenFetch = (user) => async (dispatch) => {
         body: JSON.stringify(user),
       }
     );
-    const token = await response.json();
+    const { token } = await response.json();
     dispatch(tokenFetchSuccess(token));
   } catch (error) {
-    dispatch(tokenFetchFail(error.message));
+    dispatch(tokenFetchError(error.message));
   }
 };
 
 const initialState = {
   loading: false,
-  data: null,
+  data: getLocalStorage('token', null),
   error: null,
 };
 
-function token(state = 0, action) {
+function token(state = initialState, action) {
   switch (action.type) {
     case TOKEN_FETCH_STARTED:
       return { ...state, loading: true };
     case TOKEN_FETCH_SUCCESS:
       return { data: action.payload, loading: false, error: null };
-    case TOKEN_FETCH_FAIL:
+    case TOKEN_FETCH_ERROR:
       return { data: null, loading: false, error: action.payload };
-
     default:
       return state;
   }

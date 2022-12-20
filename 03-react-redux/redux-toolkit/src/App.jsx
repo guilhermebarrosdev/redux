@@ -2,7 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { incrementar, reduzir } from './store/contador';
 
 function App() {
-  const state = useSelector((state) => state);
+  const state = useSelector((state) => state.total);
+  console.log(state);
   const dispatch = useDispatch();
   return (
     <>

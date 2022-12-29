@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
  * Cria uma slice com função assíncrona
  * @param {Object} config
  * @param {String} config.name
- * @param {Object} config.initalState
+ * @param {Object} config.initialState
  * @param {Object} config.reducers
  * @param {Object} config.fetchConfig
  */

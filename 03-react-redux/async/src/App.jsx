@@ -1,10 +1,10 @@
-import React from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from './store/login';
 
 function App() {
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.login.user);
@@ -31,7 +31,7 @@ function App() {
         </label>
         <input
           id='password'
-          type='text'
+          type='password'
           value={password}
           onChange={({ target }) => setPassword(target.value)}
         />
